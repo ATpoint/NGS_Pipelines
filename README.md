@@ -17,7 +17,7 @@ Tools=(bedtools=2.29.2 bowtie2=2.4.2 coreutils cutadapt fastqc \
        picard pigz salmon=1.3.0 samblaster samtools=1.11 \
        seqtk tabix ucsc-bedgraphtobigwig)
         
-printf '%s\n' "${TOOLS[@]}" > install_software.txt
+printf '%s\n' "${Tools[@]}" > install_software.txt
 
 conda install --file install_software.txt
 ```
