@@ -393,7 +393,7 @@ function Peaks {
     if [[ ${SePe2} == "se" ]]; then BAMF="BAM"; isPE=""; else BAMF="BAMPE"; isPE="-p"; fi
     
     macs2 callpeak \
-     -t "${Basename}"_cutsites.bed.gz \
+     -t "${Basename}"_dedup.bam \
      -n {} -g ${gflag} \
      --keep-dup=all -f ${BAMF}
     
