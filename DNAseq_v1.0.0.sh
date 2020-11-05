@@ -382,6 +382,7 @@ function Peaks {
     fi
     
     macs2 callpeak \
+      --tempdir ./ \
       -t "${Basename}"_cutsites.bed.gz \
       -n "${Basename}" -g ${gflag} \
       --extsize 100 --shift -50 --nomodel --keep-dup=all \
@@ -393,8 +394,9 @@ function Peaks {
     if [[ ${SePe2} == "se" ]]; then BAMF="BAM"; isPE=""; else BAMF="BAMPE"; isPE="-p"; fi
     
     macs2 callpeak \
+     --tempdir ./ \
      -t "${Basename}"_dedup.bam \
-     -n {} -g ${gflag} \
+     -n "${Basename}" -g ${gflag} \
      --keep-dup=all -f ${BAMF}
     
   fi
