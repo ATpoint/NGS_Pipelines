@@ -12,10 +12,9 @@ A Linux system and `miniconda3` is assumed, on Mac it should work as well, but n
 conda create --name Pipelines
 conda activate Pipelines
 
-Tools=(bedtools=2.29.2 bowtie2=2.4.2 coreutils cutadapt fastqc \
-       subread macs2=2.2.7.1 mawk multiqc parallel \
-       picard pigz salmon=1.3.0 samblaster samtools=1.11 \
-       seqtk tabix ucsc-bedgraphtobigwig)
+Tools=(bedtools=2.29.2 bioconductor-edger=3.32.0 bowtie2=2.4.2 coreutils cutadapt \
+       fastqc subread macs2=2.2.7.1 mawk multiqc r-base=4.0 parallel picard pigz \
+       salmon=1.3.0 samblaster samtools=1.11 seqtk tabix ucsc-bedgraphtobigwig)
         
 printf '%s\n' "${Tools[@]}" > install_software.txt
 
