@@ -144,10 +144,12 @@ Run script without arguments to display this help message:
 ```
 
 CBs and UMIs are expected in R1 and cDNA is R2.
-No more than two samples should be quantified in parallel when using the standard 92GB HPC nodes.
+Not extensively tested, but probably no more than two or three samples should be quantified in parallel when using the standard HPC nodes to avoid memory overload.
 We usually use an index that harbors both spliced- and unspliced transcripts plus the entire genome as decoy,
-therefore memory footprint is considerable. By default no mapping uncertainty via bootstrapping are produced.
-If this is desired then feed this in via the `--additional` argument.
+therefore memory footprint is quiet extensive (compared to a normal txtome-only index).
+For creation of such an index see: https://github.com/ATpoint/SingleCell
+If one wishes to pass additional arguments to alevin this is possible via the `--additional` argument in double quotes, 
+e.g `--additional "--numCellGibbsSamples"`.
 
 <br>
 <br>
