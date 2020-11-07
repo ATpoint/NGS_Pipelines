@@ -166,7 +166,8 @@ Accepts bam files as input and produces bigwig files:
 -a | --atacseq       : use +4/-5 shifted 5-prime end of reads to calcualte coverage                {FALSE}
 -e | --extend        : numeric value to extend reads to fragment size, see details                 {0}
 -n | --normalize     : if set then normalizes bedGraphs using TMM from edgeR, see details          {FALSE}
--u | --useexisting   : use existing scaling_factors.txt to grep SFs from                           {FALSE}
+-k | --useexistingcm : use this existing count matrix to calculate SFs from                        {FALSE}
+-u | --useexistingsf : use existing scaling_factors.txt to grep SFs from                           {FALSE}
 -p | --peaks         : peaks in BED format                                                         {}
 -j | --njobs         : number of parallel (GNU parallel) jobs to create bedGraphs, see details.    {1}
 -t | --threads       : number of threads for featureCounts (if --normalize)                        {1}
@@ -181,6 +182,8 @@ value in both directions, e.g. 50 to get a total window of 100bp. The latter is 
 For paired-end data (`--mode paired`) the TLEN is used to connect both mates getting the actual fragment coverage (option `-pc` of `genomecov`).
 If one passes a BED file with intervals as `--peaks` together with `--normalize`, then it will produce a count matrix based on the bam files for these intervals and then uses `edgeR` to calculate per-sample scaling factors using the TMM normalization method. 
 The resulting factors are then used to divide the score (that is column 4 of a bedGraph) by.
+Function can also use existing factors (`--useexistingsf`) which then have to be in a file `scaling_factors.txt` or use an existing count matrix
+via `--useexistingcm`. 
 For productive use one can easily import bigwigs into `R` using `rtacklayer::import` which returns a GRanges object 
 with the coverage as "score" column. Bigwigs can be visualized in the IGV viewer as well in a memory-efficient fashion (unlike bedGraph).
 If one aims to average bigwigs there are two options:
@@ -188,6 +191,3 @@ If one aims to average bigwigs there are two options:
 If one converts the wig directly to bigwig it will produce a very large files, much larger than bigwig produced from bedGraph, no idea why.
 2) Convert bigwig back to bedGraph or bedGraph.gz and then use `bedtools unionbedg`. This could be done in a stream-like fashion like:
 `bedtools unionbedg -i <(bigWigToBedGraph in1.bigwig /dec/stdout) <(bigWigToBedGraph inN.bigwig /dec/stdout) (...)`.
-
-
-
