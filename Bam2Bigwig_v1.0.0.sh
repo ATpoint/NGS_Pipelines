@@ -22,7 +22,8 @@ usage(){
 -a | --atacseq       : use +4/-5 shifted 5-prime end of reads to calcualte coverage                {FALSE}
 -e | --extend        : numeric value to extend reads to fragment size, see details                 {0}
 -n | --normalize     : if set then normalizes bedGraphs using TMM from edgeR, see details          {FALSE}
--u | --useexisting   : use existing scaling_factors.txt to grep SFs from                           {FALSE}
+-k | --useexistingcm : use this existing count matrix to calculate SFs from                        {FALSE}
+-u | --useexistingsf : use existing scaling_factors.txt to grep SFs from                           {FALSE}
 -p | --peaks         : peaks in BED format                                                         {}
 -j | --njobs         : number of parallel (GNU parallel) jobs to create bedGraphs, see details.    {1}
 -t | --threads       : number of threads for featureCounts (if --normalize)                        {1}
@@ -50,18 +51,19 @@ Details: * Option --extend is simply -fs in bedtools genomecov. If --atacseq is 
 for arg in "$@"; do                         
  shift                                      
  case "$arg" in
-   "--bams")        set -- "$@" "-b"    ;;   
-   "--mode")        set -- "$@" "-m"    ;;   
-   "--atacseq")     set -- "$@" "-a"    ;;   
-   "--extend")      set -- "$@" "-e"    ;;   
-   "--normalize")   set -- "$@" "-n"    ;;   
-   "--useexisting") set -- "$@" "-u"    ;;   
-   "--peaks")       set -- "$@" "-p"    ;;   
-   "--njobs")       set -- "$@" "-j"    ;;   
-   "--threads")     set -- "$@" "-t"    ;;   
-   "--sortthreads") set -- "$@" "-q"    ;;   
-   "--sortmem")     set -- "$@" "-w"    ;;   
-   *)               set -- "$@" "$arg"  ;;   
+   "--bams")          set -- "$@" "-b"    ;;   
+   "--mode")          set -- "$@" "-m"    ;;   
+   "--atacseq")       set -- "$@" "-a"    ;;   
+   "--extend")        set -- "$@" "-e"    ;;   
+   "--normalize")     set -- "$@" "-n"    ;;   
+   "--useexistingsf") set -- "$@" "-u"    ;;   
+   "--useexistingcm") set -- "$@" "-k"    ;;   
+   "--peaks")         set -- "$@" "-p"    ;;   
+   "--njobs")         set -- "$@" "-j"    ;;   
+   "--threads")       set -- "$@" "-t"    ;;   
+   "--sortthreads")   set -- "$@" "-q"    ;;   
+   "--sortmem")       set -- "$@" "-w"    ;;   
+   *)                 set -- "$@" "$arg"  ;;   
  esac
 done
 
@@ -71,7 +73,8 @@ mode=""
 atacseq="FALSE"
 extend="0"
 normalize="FALSE"
-useexisting="FALSE"
+useexistingsf="FALSE"
+useexistingcm=""
 peaks=""
 njobs="2"
 threads="1"
@@ -79,20 +82,21 @@ sortthreads="1"
 sortmem="1G"
 
 #/ getopts and export:
-while getopts b:m:e:p:t:j:q:w:anu OPT           
+while getopts b:m:e:p:t:j:q:w:k:anu OPT           
   do   
   case ${OPT} in
-    b) bams="${OPTARG}"        ;;
-    m) mode="${OPTARG}"        ;;
-    e) extend="${OPTARG}"      ;;
-    p) peaks="${OPTARG}"       ;;
-    t) threads="${OPTARG}"     ;;
-    j) njobs="${OPTARG}"       ;;
-    a) atacseq="TRUE"          ;;
-    n) normalize="TRUE"        ;;
-    u) useexisting="TRUE"      ;;
-    q) sortthreads="${OPTARG}" ;;
-    w) sortmem="${OPTARG}"     ;;
+    b) bams="${OPTARG}"          ;;
+    m) mode="${OPTARG}"          ;;
+    e) extend="${OPTARG}"        ;;
+    p) peaks="${OPTARG}"         ;;
+    t) threads="${OPTARG}"       ;;
+    j) njobs="${OPTARG}"         ;;
+    a) atacseq="TRUE"            ;;
+    n) normalize="TRUE"          ;;
+    u) useexistingsf="TRUE"      ;;
+    k) useexistingcm="${OPTARG}" ;;
+    q) sortthreads="${OPTARG}"   ;;
+    w) sortmem="${OPTARG}"       ;;
   esac
 done	
 
@@ -110,7 +114,8 @@ fi
 
 if [[ "${threads}" == "0" ]]; then threads=1; fi
 
-OPTS=(bams mode extend peaks threads njobs atacseq normalize sortthreads sortmem useexisting)
+OPTS=(bams mode extend peaks threads njobs atacseq \
+     normalize sortthreads sortmem useexistingsf useexistingcm)
 for i in ${OPTS[*]}; do export $i; done
 
 #/ Print summary:
@@ -118,17 +123,18 @@ for i in ${OPTS[*]}; do export $i; done
 echo ''
 echo '---------------------------------------------------------------------------------------------'
 echo '[Info] Running with these parameters:'
-echo '       --bams        = '"${bams}"
-echo '       --mode        = '"${mode}"
-echo '       --extend      = '"${extend}"
-echo '       --peaks       = '"${peaks}"
-echo '       --threads     = '"${threads}"
-echo '       --njobs       = '"${njobs}"
-echo '       --atacseq     = '"${atacseq}"
-echo '       --normalize   = '"${normalize}"
-echo '       --useexisting = '"${useexisting}"
-echo '       --sortthreads = '"${sortthreads}"
-echo '       --sortmem     = '"${sortmem}"
+echo '       --bams          = '"${bams}"
+echo '       --mode          = '"${mode}"
+echo '       --extend        = '"${extend}"
+echo '       --peaks         = '"${peaks}"
+echo '       --threads       = '"${threads}"
+echo '       --njobs         = '"${njobs}"
+echo '       --atacseq       = '"${atacseq}"
+echo '       --normalize     = '"${normalize}"
+echo '       --useexistingsf = '"${useexistingsf}"
+echo '       --useexistingcm = '"${useexistingcm}"
+echo '       --sortthreads   = '"${sortthreads}"
+echo '       --sortmem       = '"${sortmem}"
 echo '---------------------------------------------------------------------------------------------'
 echo ''
 
@@ -197,19 +203,28 @@ fi
 
 function GetSizeFactors {
   
-  #/ get SAF format from peak list:
-  mawk 'OFS="\t" {print $1"_"$2"_"$3, $1, $2, $3, "."}' "${peaks}" > "${peaks}".saf
+  if [[ "${useexistingcm}" == "FALSE" ]]; then
   
-  #/ make count matrix:
-  if [[ "${atacseq}" == "TRUE" ]]; then r2p='--read2pos 5'; else r2p=''; fi
-  if [[ "${mode}" == "paired" ]]; then pe='-p'; else pe=''; fi
+    #/ get SAF format from peak list:
+    mawk 'OFS="\t" {print $1"_"$2"_"$3, $1, $2, $3, "."}' "${peaks}" > "${peaks}".saf
   
-  eval featureCounts -a "${peaks}".saf -o "${peaks}".counts -F SAF -T "${threads}" "${r2p}" "${pe}" "${bams}"
+    #/ make count matrix:
+    if [[ "${atacseq}" == "TRUE" ]]; then r2p='--read2pos 5'; else r2p=''; fi
+    if [[ "${mode}" == "paired" ]]; then pe='-p'; else pe=''; fi
   
-  if [[ -e scaling_factors.txt ]]; then mv scaling_factors.txt scaling_factors_old.txt; fi
+    eval featureCounts -a "${peaks}".saf -o "${peaks}".counts -F SAF -T "${threads}" "${r2p}" "${pe}" "${bams}"
+  
+    if [[ -e scaling_factors.txt ]]; then mv scaling_factors.txt scaling_factors_old.txt; fi
       
-  #/ feed to edgeR to get size factors:
-  cat "${peaks}".counts | Rscript calculateTMM.R || exit 1
+    #/ feed to edgeR to get size factors:
+    cat "${peaks}".counts | Rscript calculateTMM.R || exit 1
+    
+  else
+  
+    #/ use existing count matrix:
+    cat "${useexistingcm}" | Rscript calculateTMM.R || exit 1
+    
+  fi  
   
 }; export -f GetSizeFactors
 
@@ -323,7 +338,7 @@ fi
 #/ Run normalization:
 if [[ "${normalize}" == "TRUE" ]]; then 
 
-  if [[ "${useexisting}" == "TRUE" ]]; then
+  if [[ "${useexistingsf}" == "TRUE" ]]; then
   
     if [[ -f "scaling_factors.txt" ]]; then touch OK; fi
   
