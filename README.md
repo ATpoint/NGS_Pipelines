@@ -117,8 +117,9 @@ Script checks whether reqiured tools are in `$PATH` before scarting the job. Mis
 
 The pipeline can optionally run `cutadapt` for adapter trimming.
 It will always estimate mapping uncertainty using Gibbs sampling (100x).
-If using an index that contains the entire human or mouse genome as decoy one should not run more than four parallel 
-quantification jobs (`--njobs`) on the standard 92GB HPC nodes. Four jobs with 16 threads each usually works well.
+If using an index that contains the entire human or mouse genome as decoy one should probably not run more than four parallel 
+quantification jobs (`--njobs`) on the standard HPC nodes but this is not extensively tested. 
+Four jobs with 16 threads each usually works well without touching memory limits.
 Note that the value goven to `--trimthreads` must be multiplied by two (for single-end) and three (for paired-end) data
 as `cutadapt` will pass that parameter to `pigz` for compression of the output files. The defaults would therefore need about 60 cores.
 
