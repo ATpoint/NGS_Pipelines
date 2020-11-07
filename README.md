@@ -125,7 +125,7 @@ as `cutadapt` will pass that parameter to `pigz` for compression of the output f
 <br>
 <br>
 
-#### `scRNAseq_SA_v1.0.0.sh`
+#### `scRNAseq_v1.0.0.sh`
 
 The scRNA-seq pipeline for droplet-based data using `alevin` for quantification, CB and UMI extraction/deduplication. 
 Run script without arguments to display this help message:
@@ -148,6 +148,43 @@ No more than two samples should be quantified in parallel when using the standar
 We usually use an index that harbors both spliced- and unspliced transcripts plus the entire genome as decoy,
 therefore memory footprint is considerable. By default no mapping uncertainty via bootstrapping are produced.
 If this is desired then feed this in via the `--additional` argument.
+
+<br>
+<br>
+
+#### `Bam2Bigwig_v1.0.0.sh`
+
+Accepts bam files as input and produces bigwig files:
+
+```{bash}
+-h | --help          : show this message                                                           {}
+-b | --bams          : space-delimited string of input bam files in double quotes or "*.bam"       {}
+-m | --mode          : <single> or <paired>, if paired will use -pc option in bedtools genomecov   {}
+-a | --atacseq       : use +4/-5 shifted 5-prime end of reads to calcualte coverage                {FALSE}
+-e | --extend        : numeric value to extend reads to fragment size, see details                 {0}
+-n | --normalize     : if set then normalizes bedGraphs using TMM from edgeR, see details          {FALSE}
+-u | --useexisting   : use existing scaling_factors.txt to grep SFs from                           {FALSE}
+-p | --peaks         : peaks in BED format                                                         {}
+-j | --njobs         : number of parallel (GNU parallel) jobs to create bedGraphs, see details.    {1}
+-t | --threads       : number of threads for featureCounts (if --normalize)                        {1}
+-q | --sortthreads   : number of threads for sorting the bedGraph                                  {1}
+-w | --sortmem       : memory for sorting the bedGraph                                             {1G}
+```
+
+The workhorse is `bedtools genomecov` to create the genome-wide pileups. Several options to customize results are available.
+In ATAC-seq mode (`--atacseq`) only the 5' ends shifted by +4/-5, that is the transposase cutting sites are counted. 
+One can extend reads to fragments using `--extend`, or in ATAC-seq mode use the same option to extend the cutting site by the provided 
+value in both directions, e.g. 50 to get a total window of 100bp. The latter is done by `bedtools slop`, read extension is simply the `-fs` option of `genomecov`. 
+For paired-end data (`--mode paired`) the TLEN is used to connect both mates getting the actual fragment coverage (option `-pc` of `genomecov`).
+If one passes a BED file with intervals as `--peaks` together with `--normalize`, then it will produce a count matrix based on the bam files for these intervals and then uses `edgeR` to calculate per-sample scaling factors using the TMM normalization method. 
+The resulting factors are then used to divide the score (that is column 4 of a bedGraph) by.
+For productive use one can easily import bigwigs into `R` using `rtacklayer::import` which returns a GRanges object 
+with the coverage as "score" column. Bigwigs can be visualized in the IGV viewer as well in a memory-efficient fashion (unlike bedGraph).
+If one aims to average bigwigs there are two options:
+1) Use `wiggletooms mean` which is cumbersome because it returns wig, which needs to bed converted back to bedGraph and then back to bigwig.
+If one converts the wig directly to bigwig it will produce a very large files, much larger than bigwig produced from bedGraph, no idea why.
+2) Convert bigwig back to bedGraph or bedGraph.gz and then use `bedtools unionbedg`. This could be done in a stream-like fashion like:
+`bedtools unionbedg -i <(bigWigToBedGraph in1.bigwig /dec/stdout) <(bigWigToBedGraph inN.bigwig /dec/stdout) (...)`.
 
 
 
