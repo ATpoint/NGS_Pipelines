@@ -223,7 +223,7 @@ $ ls *.bigwig | bash AverageBigwig.sh /dev/stdin output.bigwig chromsizes
 One should parse the input files as a space-delimited string up front and then pipe this to the function as first argument.
 Second argument is the output file and third one is a chromSizes file as the intermediate output is a bedGraph that needs to be converted
 back to bigwig. Technically the script uses process substitution to feed the bigwigs into `bedtools unionbedg` like
-`bedtools unionbedg <(bigwig1 /dec/stdout) <(bigwig2 /dev/stdout)` and then uses an `awk` one-liner to average this output which is 
+`bedtools unionbedg <(bigwig1 /dev/stdout) <(bigwig2 /dev/stdout)` and then uses an `awk` one-liner to average this output which is 
 basically the interval (chr-start-end) plus the coverage from each of the files. This intermediate result is then converted back to bigwig.
 This is based on my [biostars post](https://www.biostars.org/p/329080/#329111) from a few years back and this again is extended based on this code snipped from
 [Aaron Quinlan's Gist](https://gist.github.com/arq5x/5bdad2bd6d869ceca1ee).
