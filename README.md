@@ -202,27 +202,29 @@ This function takes two or more bigwigs and returns an averaged bigwig file.
 ```
 --------------------------------------------------------------------------------------------------------
   
-  AverageBigwig.sh
+AverageBigwig.sh
   
-  Usage: AverageBigwig.sh <inputfiles> <output> <chromsizes>
+Usage: AverageBigwig.sh <inputfiles> <output> <chromsizes>
   
-  <inputfiles> : a space-delimited list of bigwigs, e.g. simply 
-                 obtained with <ls <whatever>*.bigwig>
+<inputfiles> : a space-delimited list of bigwigs, e.g. simply 
+               obtained with <ls <whatever>*.bigwig>
                
-  <output>     : output file name
+<output>     : output file name
   
-  <chromsizes> : tab-delim text file indicating size of each chromosome
+<chromsizes> : tab-delim text file indicating size of each chromosome
   
-  The recommended usage is:
-  $ ls *.bigwig | bash AverageBigwig.sh /dev/stdin output.bigwig chromsizes
+The recommended usage is:
+$ ls *.bigwig | bash AverageBigwig.sh /dev/stdin output.bigwig chromsizes
   
-  --------------------------------------------------------------------------------------------------------
-  ```
+--------------------------------------------------------------------------------------------------------
+```
   
-  One should parse the input files as a space-delimited string up front and then pipe this to the function as first argument.
-  Second argument is the output file and third one is a chromSizes file as the intermediate output is a bedGraph that needs to be converted
-  back to bigwig. Technically the script uses process substitution to feed the bigwigs into `bedtools unionbedg` like
-  `bedtools unionbedg <(bigwig1 /dec/stdout) <(bigwig2 /dev/stdout)` and then uses an `awk` one-liner to average this output which is 
-  basically the interval (chr-start-end) plus the coverage from each of the files. This intermediate result is then converted back to bigwig.
-  This is based on my [biostars post](https://www.biostars.org/p/329080/#329111) from a few years back and this again extended from this code snipped from
-  [Aaron Quinlan's Gist](https://gist.github.com/arq5x/5bdad2bd6d869ceca1ee).
+One should parse the input files as a space-delimited string up front and then pipe this to the function as first argument.
+Second argument is the output file and third one is a chromSizes file as the intermediate output is a bedGraph that needs to be converted
+back to bigwig. Technically the script uses process substitution to feed the bigwigs into `bedtools unionbedg` like
+`bedtools unionbedg <(bigwig1 /dec/stdout) <(bigwig2 /dev/stdout)` and then uses an `awk` one-liner to average this output which is 
+basically the interval (chr-start-end) plus the coverage from each of the files. This intermediate result is then converted back to bigwig.
+This is based on my [biostars post](https://www.biostars.org/p/329080/#329111) from a few years back and this again is extended based on this code snipped from
+[Aaron Quinlan's Gist](https://gist.github.com/arq5x/5bdad2bd6d869ceca1ee).
+The script does not have a notable memory footprint, one can easily average many bigwigs at once. 
+It takes one thread for `bedtools` while both `mawk` (faster than `awk`) and the conversion tools don't need much CPU.
