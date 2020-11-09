@@ -14,7 +14,7 @@ conda activate Pipelines
 
 Tools=(bedtools=2.29.2 bioconductor-edger=3.32.0 bowtie2=2.4.2 coreutils cutadapt \
        fastqc subread macs2=2.2.7.1 mawk multiqc r-base=4.0.1 parallel picard pigz \
-       salmon=1.3.0 samblaster samtools=1.11 seqtk tabix ucsc-bedgraphtobigwig)
+       salmon=1.3.0 samblaster samtools=1.11 seqtk tabix ucsc-bedgraphtobigwig ucsc-bigwigtobedgraph)
         
 printf '%s\n' "${Tools[@]}" > install_software.txt
 
