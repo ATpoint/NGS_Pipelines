@@ -191,10 +191,9 @@ via `--useexistingcm`.
 For productive use one can easily import bigwigs into `R` using `rtacklayer::import` which returns a GRanges object 
 with the coverage as "score" column. Bigwigs can be visualized in the IGV viewer as well in a memory-efficient fashion (unlike bedGraph).
 If one aims to average bigwigs there are two options:
-1) Use `wiggletooms mean` which is cumbersome because it returns wig, which needs to bed converted back to bedGraph and then back to bigwig.
-If one converts the wig directly to bigwig it will produce a very large files, much larger than bigwig produced from bedGraph, no idea why.
-2) Convert bigwig back to bedGraph or bedGraph.gz and then use `bedtools unionbedg`. This could be done in a stream-like fashion like:
-`bedtools unionbedg -i <(bigWigToBedGraph in1.bigwig /dec/stdout) <(bigWigToBedGraph inN.bigwig /dec/stdout) (...)`.
+1) Use the script `AverageBigwig_v1.0.0.sh` in this repo.
+2) Use `wiggletooms mean` which is cumbersome because it returns wig, which needs to bed converted back to bedGraph and then back to bigwig.
+If one converts the wig directly to bigwig it will produce a very large files, much larger (in terms of Mb/Gb) than bigwig produced from bedGraph, no idea why.
 
 <br>
 <br>
