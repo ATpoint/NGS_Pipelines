@@ -88,7 +88,7 @@ The RNA-seq pipeline using `salmon` for quantification of fastq files against a 
 Run script without arguments to display this help message:
 
 ```{bash}
----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
 -h | --help        : Show this message                               {}
 -i | --idx         : the transcriptome index folder                  {}
@@ -107,7 +107,7 @@ Run script without arguments to display this help message:
 -y | --trimthreads : threads per job for cutadapt                    {2}
 -x | --trimjobs    : GNU parallel jobs for cutadapt                  {10}
 
----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 ```
 
 Input files are gzipped fastq, either single-or paired-end with naming concentions as in the DNAseq pipeline above,
@@ -132,6 +132,7 @@ The scRNA-seq pipeline for droplet-based data using `alevin` for quantification,
 Run script without arguments to display this help message:
 
 ```{bash}
+------------------------------------------------------------------------------------------------------------------
 -h | --help       : Show this message                                                                    
 -i | --idx        : the transcriptome index                              {}                                                                                                    
 -c | --chemistry  : the kit chemistry (dropseq, chromium, chromiumV3)    {chromiumV3}
@@ -142,6 +143,7 @@ Run script without arguments to display this help message:
 -t | --threads    : number of threads per sample                         {36}
 -j | --njobs      : number of parallel jobs                              {2}
 -a | --additional : any additional parameters to pass to alevin          {}
+------------------------------------------------------------------------------------------------------------------
 ```
 
 CBs and UMIs are expected in R1 and cDNA is R2.
@@ -160,6 +162,7 @@ e.g `--additional "--numCellGibbsSamples"`.
 Accepts bam files as input and produces bigwig files:
 
 ```{bash}
+------------------------------------------------------------------------------------------------------------------
 -h | --help          : show this message                                                           {}
 -b | --bams          : space-delimited string of input bam files in double quotes or "*.bam"       {}
 -m | --mode          : <single> or <paired>, if paired will use -pc option in bedtools genomecov   {}
@@ -173,6 +176,7 @@ Accepts bam files as input and produces bigwig files:
 -t | --threads       : number of threads for featureCounts (if --normalize)                        {1}
 -q | --sortthreads   : number of threads for sorting the bedGraph                                  {1}
 -w | --sortmem       : memory for sorting the bedGraph                                             {1G}
+------------------------------------------------------------------------------------------------------------------
 ```
 
 The workhorse is `bedtools genomecov` to create the genome-wide pileups. Several options to customize results are available.
@@ -199,9 +203,8 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 
 This function takes two or more bigwigs and returns an averaged bigwig file.
 
-```
---------------------------------------------------------------------------------------------------------
-  
+```{bash}
+------------------------------------------------------------------------------------------------------------------
 AverageBigwig.sh
   
 Usage: AverageBigwig.sh <inputfiles> <output> <chromsizes>
@@ -215,8 +218,7 @@ Usage: AverageBigwig.sh <inputfiles> <output> <chromsizes>
   
 The recommended usage is:
 $ ls *.bigwig | bash AverageBigwig.sh /dev/stdin output.bigwig chromsizes
-  
---------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 ```
   
 One should parse the input files as a space-delimited string up front and then pipe this to the function as first argument.
