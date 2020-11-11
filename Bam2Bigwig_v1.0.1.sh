@@ -8,6 +8,8 @@
 
 LC_ALL=C
 
+set -e
+
 #/ Help section:
 usage(){
   echo '
@@ -234,6 +236,12 @@ function Bam2Bw {
   
   #/ Input is one bam file per sample:
   singlebam="${1}"
+  
+  if [[ ! -e "${singlebam}" ]]; then 
+    echo '[ERROR]' "${singlebam}" 'does not exist'
+    exit 1
+  fi  
+  
   Basename=${singlebam%.bam}
   
   #/ Get chromsizes based on idxstats
@@ -354,7 +362,7 @@ fi
 #/ Run the main function:
 if [[ -f OK ]]; then
 
-  find * -maxdepth 0 -name "${bams}" | sort -u | parallel -j "${njobs}" "Bam2Bw {}"
+  echo ${bams} | tr " " "\n" | awk NF | sort -u | parallel -j "${njobs}" "Bam2Bw {}"
   
 else
 
