@@ -9,6 +9,20 @@ A Linux system and `miniconda3` is assumed, on Mac it should work as well, but n
 
 
 ```
+
+#/ Install conda if not already done:
+if [[ "$(uname)" == "Darwin" ]]; then
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+  bash Miniconda3-latest-MacOSX-x86_64.sh
+elif [[ "$(uname)" == "Linux" ]]; then
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  bash Miniconda3-latest-Linux-x86_64.sh
+fi
+
+#/ If on Mac and brew is the main pkg manager then run this to avoid auto-activate of conda base:
+echo 'auto_activate_base: false' >> ~/.condarc  
+
+#/ Create environment and install necessary tools:
 conda create --name Pipelines
 conda activate Pipelines
 
