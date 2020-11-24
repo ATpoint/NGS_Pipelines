@@ -33,6 +33,7 @@ Tools=(bedtools=2.29.2 bioconductor-edger=3.32.0 bowtie2=2.4.2 coreutils cutadap
 printf '%s\n' "${Tools[@]}" > install_software.txt
 
 conda install --file install_software.txt
+
 ```
 
 In order to activate the envir from inside a SLURM script add these lines to the top of the script as 
