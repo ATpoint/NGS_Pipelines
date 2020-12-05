@@ -3,6 +3,8 @@
 Bash-based pipelines for processing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 Not intended for public use, therefore use at your own risk, without any warranty.
 
+![ngsp](https://media3.giphy.com/media/QaG5kZDRMwqb4ApEQU/giphy.gif)
+
 ## Software Installation
 It is recommended to install software via the `miniconda` package manager into a separate environment.
 A Linux system and `miniconda3` is assumed, on Mac it should work as well, but not extensively tested.
