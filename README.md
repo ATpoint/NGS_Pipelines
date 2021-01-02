@@ -97,7 +97,7 @@ The input files are all fastq.gz or uBAM files in the directory where the script
 <br>
 <br>
 
-#### `RNAseq_v1.0.0.sh`
+#### `RNAseq_v1.0.1.sh`
 
 The RNA-seq pipeline using `salmon` for quantification of fastq files against a transcriptome.
 Run script without arguments to display this help message:
@@ -131,7 +131,6 @@ All files with this suffix in the current directory of the script will be used a
 Script checks whether reqiured tools are in `$PATH` before scarting the job. Missing tools are in `missing_tools.txt`
 
 The pipeline can optionally run `cutadapt` for adapter trimming.
-It will always estimate mapping uncertainty using Gibbs sampling (100x).
 If using an index that contains the entire human or mouse genome as decoy one should probably not run more than four parallel 
 quantification jobs (`--njobs`) on the standard HPC nodes but this is not extensively tested. 
 Four jobs with 16 threads each usually works well without touching memory limits.
