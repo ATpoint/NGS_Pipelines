@@ -194,7 +194,7 @@ function SALMON {
   
   #/ Basic command that is always executed:
   SalmonBasic="salmon quant \
-                 -l ${libtype} -i ${idx} -p ${threads} --validateMappings --no-version-check --numGibbsSamples 100"
+                 -l ${libtype} -i ${idx} -p ${threads} --validateMappings --no-version-check"
   
   #---------------------------------------------------------------------------------------------------------------------------------------
   
