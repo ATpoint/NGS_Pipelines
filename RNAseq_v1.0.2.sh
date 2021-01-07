@@ -211,7 +211,7 @@ function SALMON {
     #/ If data are end-tagged then set the option, if not add seqBias to BiasFlags:
     if [[ "${noLength}" == "TRUE" ]]; then
       noLength="--noLengthCorrection"
-      BiasFlags="--gcBias"
+      BiasFlags=""
     else noLength=""
     fi
     
