@@ -97,7 +97,7 @@ The input files are all fastq.gz or uBAM files in the directory where the script
 <br>
 <br>
 
-#### `RNAseq_v1.0.1.sh`
+#### `RNAseq_v1.0.2.sh`
 
 The RNA-seq pipeline using `salmon` for quantification of fastq files against a transcriptome.
 Run script without arguments to display this help message:
