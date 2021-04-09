@@ -228,6 +228,7 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 This function takes two or more bigwigs and returns an averaged bigwig file.
 
 ```{bash}
+
 ------------------------------------------------------------------------------------------------------------------
 AverageBigwig.sh
   
@@ -242,6 +243,7 @@ Usage: AverageBigwig.sh <inputfiles> <output> <chromsizes>
   
 The recommended usage is:
 $ ls *.bigwig | bash AverageBigwig.sh /dev/stdin output.bigwig chromsizes
+
 ------------------------------------------------------------------------------------------------------------------
 ```
   
@@ -439,4 +441,3 @@ zlib=1.2.11
 zstd=1.4.5
 
 ```
-<chromsizes> : tab-delim text file indicating size of each chromosome
