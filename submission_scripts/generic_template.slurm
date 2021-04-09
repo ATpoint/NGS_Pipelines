@@ -6,8 +6,8 @@
 #SBATCH --mem=80G
 #SBATCH --partition=normal
 #SBATCH --time=24:00:00
-#SBATCH --job-name=DNAseq
-#SBATCH --output=DNAseq_v1.0.x.log
+#SBATCH --job-name=jobname
+#SBATCH --output=jobname.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=foo@bar.de
 
@@ -52,9 +52,7 @@ Idxdir="/scratch/tmp/a_toen03/Genomes/GRCm38/Index/index_alevin/"
   --threads 8 \
   --njobs 4 \
   --additional "--numCellBootstraps 100 --dumpFeatures" 
-  
-
-  
+    
 #/ Run fastqc on everything:  
 ls *.fastq.gz | parallel -j 30 "fastqc {}"
 
