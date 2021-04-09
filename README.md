@@ -7,7 +7,7 @@ Not intended for public use, therefore use at your own risk, without any warrant
 It is recommended to install software via the `miniconda` package manager into a separate environment.
 A Linux system and `miniconda3` is assumed, on Mac it should work as well, but not extensively tested.
 
-For the exact versions we used on our HPC see [below](#software-installation). This should allow a reproduction of any results as far as software versions are concerned.
+For the exact versions we used on our HPC see [below](#software-versions). This should allow a reproduction of any results as far as software versions are concerned.
 
 ```
 
