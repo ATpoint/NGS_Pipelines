@@ -31,6 +31,30 @@ ulimit -u 50000
   --threads 16 \
   --format fq_se
   
+#/ Unstranded RNA-seq in mice:
+./RNAseq_v1.0.0.sh \
+  --idx /scratch/tmp/a_toen03/Genomes/GRCm38/Index/index_salmon/kmer31/ \
+  --mode paired \
+  --threads 10 \
+  --njobs 3 \
+  --trim \
+  --trimthreads 6 \
+  --trimjobs 4 \
+  --libtype IU
+  
+#/ scRNA-seq 10X-V3 in mice:
+Idxdir="/scratch/tmp/a_toen03/Genomes/GRCm38/Index/index_alevin/"
+./scRNAseq_v1.0.0.sh \
+  --idx ${Idxdir}/gencode.vM25.annotation.expanded.sidx/ \
+  --tgmap ${Idxdir}/gencode.vM25.annotation.expanded.tx2gene.tsv \
+  --mtgenes ${Idxdir}/mtRNA.txt \
+  --rrnagenes ${Idxdir}/rRNA.txt \
+  --threads 8 \
+  --njobs 4 \
+  --additional "--numCellBootstraps 100 --dumpFeatures" 
+  
+
+  
 #/ Run fastqc on everything:  
 ls *.fastq.gz | parallel -j 30 "fastqc {}"
 
