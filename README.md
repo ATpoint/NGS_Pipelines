@@ -17,7 +17,7 @@ channels:
 
 ```
 
-...and then create the environment/install the software.
+...and then create the environment/install the software. For the exact versions we used on our HPC see [below](#software-installation).
 
 ```
 
