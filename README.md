@@ -6,18 +6,8 @@ Not intended for public use, therefore use at your own risk, without any warrant
 ## Software Installation
 It is recommended to install software via the `miniconda` package manager into a separate environment.
 A Linux system and `miniconda3` is assumed, on Mac it should work as well, but not extensively tested.
-After installing `conda` one should change `.condarc` to:
 
-```{bash}
-
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-
-```
-
-...and then create the environment/install the software. For the exact versions we used on our HPC see [below](#software-installation).
+For the exact versions we used on our HPC see [below](#software-installation). This should allow a reproduction of any results as far as software versions are concerned.
 
 ```
 
@@ -31,28 +21,31 @@ elif [[ "$(uname)" == "Linux" ]]; then
 fi
 
 #/ If on Mac and brew is the main pkg manager then run this to avoid auto-activate of conda base:
-echo 'auto_activate_base: false' >> ~/.condarc  
+echo 'auto_activate_base: false' >> $HOME/.condarc
+
+#/ Set correct order of channels:
+echo "channels:
+  - conda-forge
+  - bioconda
+  - defaults" > $HOME/.condarc
 
 #/ Create environment and install necessary tools:
 conda create --name Pipelines
-conda activate Pipelines
 
+#/ The required software:
 Tools=(bedtools=2.29.2 bioconductor-edger=3.32.0 bowtie2=2.4.2 coreutils cutadapt \
        fastqc subread macs2=2.2.7.1 mawk multiqc r-base=4.0.1 parallel picard pigz \
        salmon=1.3.0 samblaster samtools=1.11 seqtk tabix ucsc-bedgraphtobigwig ucsc-bigwigtobedgraph)
         
 printf '%s\n' "${Tools[@]}" > install_software.txt
 
-conda install --file install_software.txt
+#/ Install into the created environment:
+conda install --name Pipelines --file install_software.txt
 
-```
-
-In order to activate the envir from inside a SLURM script add these lines to the top of the script as 
-suggested at [this Github issue](https://github.com/conda/conda/issues/7980).
-
-```
+#/ Activate the environment, this should be included into the SLURM submission scripts:
 eval "$(conda shell.bash hook)"
 conda activate Pipelines
+
 ```
 
 ## Available Pipeline
