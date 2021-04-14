@@ -32,7 +32,7 @@ ulimit -u 50000
   --format fq_se
   
 #/ Unstranded RNA-seq in mice:
-./RNAseq_v1.0.0.sh \
+./RNAseq_v1.0.2.sh \
   --idx /scratch/tmp/a_toen03/Genomes/GRCm38/Index/index_salmon/kmer31/ \
   --mode paired \
   --threads 10 \
