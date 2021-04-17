@@ -209,7 +209,7 @@ zlib=1.2.11
 zstd=1.4.5" > software_versions.txt
 
 #/ Install into the created environment:
-conda install --name Pipelines --file software_versions
+conda install --name Pipelines --file software_versions.txt
 
 #/ Activate the environment, this should be included into the SLURM submission scripts:
 eval "$(conda shell.bash hook)"
