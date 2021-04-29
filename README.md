@@ -8,7 +8,7 @@ Not intended for public use, therefore use at your own risk, without any warrant
 Update to myself (29th April 2021): A first version of a Docker container with all required software is available, 
 see https://hub.docker.com/repository/docker/atpoint90/ngs_pipelines.
 
-The Dockerfile (thanks to [HaveAGreatData Blog](https://haveagreatdata.com/posts/step-by-step-docker-image-for-data-science-projects/) is:
+The Dockerfile (thanks to [HaveAGreatData Blog](https://haveagreatdata.com/posts/step-by-step-docker-image-for-data-science-projects/)) is:
 
 ```
 
@@ -51,7 +51,7 @@ fi
 #/ If on Mac and brew is the main pkg manager then run this to avoid auto-activate of conda base:
 echo 'auto_activate_base: false' >> $HOME/.condarc
 
-#/ Set correct order of channels:
+#/ Set correct order of channels (given that we use the environment YAML this is actually not necessary):
 echo "channels:
   - conda-forge
   - bioconda
