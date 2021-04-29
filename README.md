@@ -7,6 +7,7 @@ Not intended for public use, therefore use at your own risk, without any warrant
 
 Update to myself (29th April 2021): A first version of a Docker container with all required software is available, 
 see https://hub.docker.com/repository/docker/atpoint90/ngs_pipelines.
+
 => Will add instructions on how to run the pipelines with this image and how to mount the HPCs file system when running the image via `singularity`,
 have to find out myself first :-P
 
