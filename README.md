@@ -55,7 +55,7 @@ echo 'auto_activate_base: false' >> $HOME/.condarc
 echo "channels:
   - conda-forge
   - bioconda
-  - defaults" > $HOME/.condarc
+  - defaults" >> $HOME/.condarc
 
 #/ Create env:
 conda create --name Pipelines
