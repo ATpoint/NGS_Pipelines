@@ -57,9 +57,6 @@ echo "channels:
   - bioconda
   - defaults" > $HOME/.condarc
 
-#/ Create environment and install necessary tools:
-conda create --name Pipelines
-
 #/ The required software with exact versions for full reproduction of our HPC environment:
 echo 'name: Pipelines
 channels:
@@ -245,7 +242,7 @@ dependencies:
   - zstd=1.4.5=h6597ccf_2' > environment.yml
 
 #/ Install into the created environment:
-conda install --name Pipelines --file environment.yml
+conda env create --file environment.yml
 
 #/ Activate the environment, this should be included into the SLURM submission scripts:
 eval "$(conda shell.bash hook)"
