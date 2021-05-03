@@ -5,10 +5,7 @@ Not intended for public use, therefore use at your own risk, without any warrant
 
 ## Software Installation
 
-Update to myself (29th April 2021): A first version of a Docker container with all required software is available, 
-see https://hub.docker.com/repository/docker/atpoint90/ngs_pipelines.
-
-The Dockerfile (thanks to [HaveAGreatData Blog](https://haveagreatdata.com/posts/step-by-step-docker-image-for-data-science-projects/)) is:
+A Docker container is in the making. The scripts will soon be rewritten in nextflow.
 
 ```
 
@@ -48,7 +45,7 @@ elif [[ "$(uname)" == "Linux" ]]; then
   bash Miniconda3-latest-Linux-x86_64.sh
 fi
 
-#/ If on Mac and brew is the main pkg manager then run this to avoid auto-activate of conda base:
+#/ Avoid auto-activate of conda base:
 echo 'auto_activate_base: false' >> $HOME/.condarc
 
 #/ Set correct order of channels (given that we use the environment YAML this is actually not necessary):
@@ -244,7 +241,7 @@ dependencies:
   - zlib=1.2.11=h516909a_1010
   - zstd=1.4.5=h6597ccf_2' > environment.yml
 
-#/ Install into the created environment:
+#/ Install into the created environment (this most likely only works on Linux but not macOS):
 conda install --name Pipelines --file environment.yml
 
 #/ Activate the environment, this should be included into the SLURM submission scripts:
