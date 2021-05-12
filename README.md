@@ -6,7 +6,7 @@ The scripts will be rewritten using nextflow soon.
 
 ## Software Installation
 
-A Docker container with all necessary software is available from the [Docker Hub](https://hub.docker.com/repository/docker/atpoint90/phd_project). Inside the container one has to run the following commands to activate the conda environment. On the HPC one can pull the image and convert to the Singularity `sif` format using as shown below. The environment export is shown [here](#conda-environment-export).
+A Docker container with all necessary software is available from the [Docker Hub](https://hub.docker.com/repository/docker/atpoint/phd_project) based on this [Github repo](https://github.com/ATpoint/phd_project_docker). Inside the container one has to run the following commands to activate the conda environment. On the HPC one can pull the image and convert to the Singularity `sif` format using as shown below. The environment export is shown [here](#conda-environment-export).
 
 ```
 
