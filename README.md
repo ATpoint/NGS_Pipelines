@@ -3,6 +3,10 @@
 Bash-based pipelines for processing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 Nextflow replacements will follow soon.
 
+Note to myself:  
+- the scRNA-seq pipeline replaced with: https://github.com/ATpoint/nf-scrnaseq_thesis
+  
+Others in progress.
 
 ## Software Installation
 
