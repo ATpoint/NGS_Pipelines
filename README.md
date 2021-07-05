@@ -183,7 +183,7 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 <br>
 <br>
 
-#### AverageBigwig_v1.0.0.sh
+#### AverageBigwig_v1.0.1.sh
 
 This function takes two or more bigwigs and returns an averaged bigwig file.
 
