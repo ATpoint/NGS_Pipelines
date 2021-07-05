@@ -19,7 +19,7 @@ The template submission script `submission_scripts/generic_template.slurm` conta
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
 <br>
 
-#### `DNAseq_v1.0.0.sh`
+#### `DNAseq_v1.0.2.sh`
 
 Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
 
