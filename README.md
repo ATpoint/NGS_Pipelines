@@ -3,6 +3,7 @@
 Pipelines for precessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 
 Note that these pipelines are for internal use and come without any warranty. Default settings are tailored for use on a 72-core HPC node with > 80GB RAM.
+it is always expected that the input files (fastq, UBAM/uCRAM) are in `$(pwd)`.
 
 ## Software
 
