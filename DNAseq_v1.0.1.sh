@@ -126,7 +126,7 @@ done
 #/ Export all opts so they can be used inside functions:
 OPTS=(genome jobnumber threads format atacseq onlyaln chrM \
       memSort threadsSort chrRegex keepDup minMAPQ checktools \
-      noalignment nofrips layout fripqcJobs)
+      noalignment nofrips layout fripqcJobs gflag)
 
 for i in ${OPTS[*]}; do export $i; done
 
