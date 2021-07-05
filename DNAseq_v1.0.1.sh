@@ -99,7 +99,7 @@ fripqcJobs=16
 gflag="mm"
 
 
-while getopts g:j:t:f:m:l:y:c:q:b:w:aokxds OPT           
+while getopts g:j:t:f:m:l:y:c:q:b:w:u:aokxds OPT           
   do   
   case ${OPT} in
     g) genome="${OPTARG}"      ;;
