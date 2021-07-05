@@ -1,27 +1,16 @@
 # NGS_Pipelines
 
-Bash-based pipelines for processing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
-Nextflow replacements will follow soon.
+Pipelines for precessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 
-Note to myself:  
-- the scRNA-seq pipeline replaced with: https://github.com/ATpoint/nf-scrnaseq_thesis
-  
-Others in progress.
+Note that these pipelines are for internal use and come without any warranty. Default settings are tailored for use on a 72-core HPC node with > 80GB RAM.
 
-## Software Installation
+## Software
 
-A Docker container with all necessary software is available from the [Docker Hub](https://hub.docker.com/r/atpoint/phd_project) based on this [Github repo](https://github.com/ATpoint/phd_project_docker). Inside the container one has to run the following commands to activate the conda environment. On the HPC one can pull the image and convert to the Singularity `sif` format using as shown below. The environment export is shown [here](#conda-environment-export).
+- the `environment.yml` contains a conda environment (built on CentOS-7) with all required software
 
-```
+- a Docker container based on that environment is available from the [Docker Hub](https://hub.docker.com/r/atpoint/phd_project) based on this [Github repo](https://github.com/ATpoint/phd_project_docker).
 
-#/ activate env:
-eval "$(conda shell.bash hook)"
-conda activate Pipelines
-
-#/ on HPC pull and convert to SIF:
-singularity pull docker://atpoint90/phd_project:1.0.0
-
-```
+The template submission script `submission_scripts/generic_template.slurm` contains instructions on how to launch the workflows via SLURM + Singularity.
 
 ## Available Pipeline
 
@@ -120,6 +109,8 @@ as `cutadapt` will pass that parameter to `pigz` for compression of the output f
 <br>
 
 #### `scRNAseq_v1.0.0.sh`
+
+Deprecated, see https://github.com/ATpoint/sc_preprocess.  
 
 The scRNA-seq pipeline for droplet-based data using `alevin` for quantification, CB and UMI extraction/deduplication. 
 Run script without arguments to display this help message:
