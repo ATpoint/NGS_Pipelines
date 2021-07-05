@@ -45,6 +45,7 @@ usage(){
 -s | --nofrips       : do not run the QC assessment via peak calling and FRiP calculation          {FALSE}
 -b | --layout        : whether se or pe, only relevant if --noalignment is set (se,pe)             {se}
 -w | --fripqcJobs    : number of parallel jobs for the QC/FRiP part                                {36}
+-u | --gflag         : for macs2 flag -g (hs for human, mm for mouse)                              {mm}
 ------------------------------------------------------------------------------------------------------------------
 '
   
@@ -73,6 +74,7 @@ for arg in "$@"; do
     "--nofrips")     set -- "$@" "-s"   ;;   #
     "--layout")      set -- "$@" "-b"   ;;   #
     "--fripqcJobs")  set -- "$@" "-w"   ;;   #
+    "--gflag")       set -- "$@" "-u"   ;;   #
     *)               set -- "$@" "$arg" ;;   # 
   esac
 done
@@ -94,6 +96,7 @@ noalignment="FALSE"
 nofrips="FALSE"
 layout="se"
 fripqcJobs=16
+gflag="mm"
 
 
 while getopts g:j:t:f:m:l:y:c:q:b:w:aokxds OPT           
@@ -116,6 +119,7 @@ while getopts g:j:t:f:m:l:y:c:q:b:w:aokxds OPT
     s) nofrips="TRUE"          ;;
     b) layout="${OPTARG}"      ;;
     w) fripqcJobs="${OPTARG}"  ;;
+    u) gflag="${OPTARG}"       ;;
   esac
 done	
 
@@ -368,10 +372,6 @@ function Peaks {
     SePe2="${layout}"
   else SePe2=$(echo "${format}" | tr "_" "\t" < /dev/stdin | cut -f2)
   fi
-  
-  if (( $(samtools view -H ${Basename}_dedup.bam | grep 'chr22' | wc -l | xargs) == 1 )); then
-    gflag="hs"
-  else gflag="mm"; fi
   
   #/ check for input files, if present call peaks:
   if [[ "${atacseq}" == "TRUE" ]]; then
