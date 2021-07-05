@@ -11,18 +11,34 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=foo@bar.de
 
-eval "$(conda shell.bash hook)"
-conda activate Pipelines
+########################################################################
+## Template submission script for SLURM + Singularity
+## Don't run this script! It's only a template to copy from!
+########################################################################
 
-ulimit -u 50000
+#/ Define the image and the base directory to mount:
+Image="phd_project_v1.1.1.sif"
+Mount="/scratch/tmp/${USER}"
 
-#/ Example for a paired-end ATAC-seq experiment in mice:
-./DNAseq_v1.0.0.sh \
-  --genome /scratch/tmp/a_toen03/Genomes/GRCm38/Index/index_bowtie2/GRCm38.primary_assembly.genome.fa \
-  --jobnumber 4 \
-  --threads 14 \
-  --format fq_pe \
-  --atacseq
+module load Singularity
+if [[ $(command -v singularity | wc -l) == 0 ]]; then 
+  echo '[Error] Singularity not in PATH!'
+  exit 1
+fi
+
+#/ basic singularity command:
+singularity_basic="singularity exec --bind=${Mount} ${Image} echo '' && ulimit -u 50000" 
+
+#/ example command, first activating the conda env, then run  any command:
+eval ${singularity_basic} \
+  eval "$(conda shell.bash hook)" \
+  && conda activate Pipelines \
+  && ./DNAseq_v1.0.0.sh \
+        --genome path/to/index \
+        --jobnumber 4 \
+        --threads 14 \
+        --format fq_pe \
+        --atacseq
 
 #/ Single-end ChIP-seq data:
 ./DNAseq_v1.0.0.sh \
