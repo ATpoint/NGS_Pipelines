@@ -203,6 +203,7 @@ if [[ ${checktools} == "FALSE" ]]; then
   echo '       -s/--nofrips      =' "${nofrips}"
   echo '       -b/--layout       =' "${layout}"
   echo '       -w/--fripqcJobs   =' "${fripqcJobs}"
+  echo '       -u/--gflag        =' "${gflag}"
   echo '---------------------------------------------------------------------------------------------'
   echo ''
 
