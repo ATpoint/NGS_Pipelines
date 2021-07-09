@@ -58,7 +58,7 @@ with the names `Basename_cutsites.bed.gz` and `Basename_cutsites.bigwig`.
 The pipeline can also perform some basic QC by calling peaks with `macs2` and then calculate the Fraction Of Reads in Peaks (FRiPs) as an estimate of the signal/noise ratio. The FRiPs per sample are then in `FRiPs.txt`. For ATAC-seq there will also be `mtDNA_percent.txt` which contains the percentage of reads per sample mapping to the mitochondrial chromosome (specified via `--chrM`). If one already has alignments from this pipeline one can skip it and only perform the FRiP QC via `--noalignment`, and one can skip the FRiP QC when only running the alignments via `--nofrips`.
 
 As minimum input the path to the `bowtie2` index files must be provided via `--genome` as well as the format (fq_se, fq_pe, bam_se, bam_pe) to indicate input format and sequencing layout (single, paired-end).
-Run with `--checktools` to check whether all reqiured software is in `$PATH`. If not `missing_tools.txt` will contain the names of the missing tools.
+Run with `--checktools` to check whether all required software is in `$PATH`. If not `missing_tools.txt` will contain the names of the missing tools.
 That check is automatically performed (if not specified explicitely) before every run.
 
 The input files (fastq.gz/uBAM/uCRAM) are expected in the same directory as the script.
