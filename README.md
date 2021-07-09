@@ -79,6 +79,8 @@ sbatch --nodes=1 --ntasks-per-node=72 --mem=80G --partition=normal --job-name=jo
 
 ```
 
+After running the pipeline one can use the `cleanup.sh` script in this repo to sort output into folders.
+  
 <br>
 <br>
 
