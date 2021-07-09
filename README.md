@@ -46,22 +46,38 @@ Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such 
 ------------------------------------------------------------------------------------------------------------------
 ```
 
-Input data are gzipped fastq or unaligned BAMs with the naming convention:
+Input data are gzipped fastq or unaligned BAMs/CRAMs with the naming convention:  
 - single-end: `Basename.fastq.gz`
 - paired-end: `Basename_1.fastq.gz`, `Basename_2.fastq.gz`
 - ubam se/pe: `Basename_ubam.bam`
 
 Workflow includes adapter trimming, alignment, removal of non-primary, duplicated and low-MAPQ reads as well as alignments on non-primary chromosomes.
-Output are the unfiltered sorted alignment (`Basename_raw.bam`) and the filtered one `Basename_dedup.bam`. The user can specify which chromosomes shall be retained during the filtering via `--chrRegex` which is basically the regex used by `grep` on the chromosome names. Default is `chr[1,9,X,Y]` which will keep (here intended for the mouse and human genome) all chromosomes prefixed with chr followed by a number, plus the sec chromosomes X and Y, but discard the unplaced contigs etc.
+Output are the unfiltered sorted alignment (`basename_raw.bam`) and the filtered one `basename_dedup.bam`. The user can specify which chromosomes shall be retained during the filtering via `--chrRegex` which is basically the regex used by `grep` on the chromosome names. Default is `chr[1,9,X,Y]` which will keep (here intended for the mouse and human genome) all chromosomes prefixed with chr followed by a number, plus the sec chromosomes X and Y, but discard the unplaced contigs etc.
 In ATAC-seq mode (`--atacseq`) it also outputs a BED file with the transposase cutting sites (shifted +4/-5) as both compressed BED and bigwig,
-with the names `Basename_cutsites.bed.gz` and `Basename_cutsites.bigwig`.
+with the names `Basename_cutsites.bed.gz` and `Basename_cutsites.bigwig`.  
 The pipeline can also perform some basic QC by calling peaks with `macs2` and then calculate the Fraction Of Reads in Peaks (FRiPs) as an estimate of the signal/noise ratio. The FRiPs per sample are then in `FRiPs.txt`. For ATAC-seq there will also be `mtDNA_percent.txt` which contains the percentage of reads per sample mapping to the mitochondrial chromosome (specified via `--chrM`). If one already has alignments from this pipeline one can skip it and only perform the FRiP QC via `--noalignment`, and one can skip the FRiP QC when only running the alignments via `--nofrips`.
 
 As minimum input the path to the `bowtie2` index files must be provided via `--genome` as well as the format (fq_se, fq_pe, bam_se, bam_pe) to indicate input format and sequencing layout (single, paired-end).
 Run with `--checktools` to check whether all reqiured software is in `$PATH`. If not `missing_tools.txt` will contain the names of the missing tools.
 That check is automatically performed (if not specified explicitely) before every run.
 
-The input files are all fastq.gz or uBAM files in the directory where the script sits. They don't have to be (or can be) explicitely specified.
+The input files (fastq.gz/uBAM/uCRAM) are expected in the same directory as the script.
+
+For submission via SLURM and running via Singularity with our [Docker image](https://hub.docker.com/r/atpoint/phd_project) one could use:
+
+```bash
+
+
+singularity_basic_pipelines="singularity exec --bind=path/to/dir-to-mount <image.sif> echo '' && ulimit -u 50000"
+
+echo -e '#!/bin/bash'"\n"'eval ${singularity_basic_pipelines} && eval "$(conda shell.bash hook)" && conda activate Pipelines' > submit.slurm \
+&& echo 'ls *.gz | parallel -j <paralleljobs> "fastqc {}"' >> submit.slurm \
+&& echo "./DNAseq_v1.0.X.sh --genome ${idx_bowtie2}/$(basename ${ref_genome}) --atacseq --format fq_pe" >> submit.slurm
+
+#/ submit to SLURM e.g:
+sbatch --nodes=1 --ntasks-per-node=72 --mem=80G --partition=normal --job-name=jobname --time=24:00:00 submit.slurm
+
+```
 
 <br>
 <br>
