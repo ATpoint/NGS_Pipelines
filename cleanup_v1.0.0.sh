@@ -12,7 +12,7 @@ function exist_move {
 
 rm *.fastq.gz
 
-exist_move "*raw.bam*" "bam_raw"; exist_move "*raw.flag*" "*raw.flagstat"
+exist_move "*raw.bam*" "bam_raw"; exist_move "*raw.flag*" "./bam_raw"
 
 exist_move "*_dedup.bam*" "./bam_dedup"; exist_move "*_dedup.flag*" "./bam_dedup"
 
@@ -25,3 +25,5 @@ exist_move "*peaks*" "./macs2"
 exist_move "*.log" "./logs"
 
 exist_move "*InsertSize*" "./insert_sizes"
+
+exist_move "*cutsites.bed.gz" "./bed_cutsites"
