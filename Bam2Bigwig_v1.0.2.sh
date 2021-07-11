@@ -169,7 +169,7 @@ fi
 
 #/ Paste R script to disk that contains the code for normalization:
 
-if [[ "${normalize}" == "TRUE" ]]; then 
+if [[ "${normalize}" == "TRUE" ]] && [[ "${useexistingsf} == "FALSE" ]]; then 
 
 cat <<EOF > calculateTMM.R
   
