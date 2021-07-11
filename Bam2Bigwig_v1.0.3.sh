@@ -2,6 +2,7 @@
 
 #/ Wrapper function to produce BigWig from Bam files.
 #/ Optionally normalized using TMM from edgeR,
+#/ optionally accept scaling (size) factors via a txt file,
 #/ optionally extended to fragment size (either based on paired-end TLEN) or
 #/ user-provided fragment size,
 #/ optionally reduced to Tn cutting site (ATAC-seq mode).
