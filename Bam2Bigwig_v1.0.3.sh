@@ -32,6 +32,7 @@ usage(){
 -t | --threads       : number of threads for featureCounts (if --normalize)                        {1}
 -q | --sortthreads   : number of threads for sorting the bedGraph                                  {1}
 -w | --sortmem       : memory for sorting the bedGraph                                             {1G}
+-s | --customsuffix  : a suffix to append to the output file name , e.g. outname<_suffix>.bigwig   {}
 ------------------------------------------------------------------------------------------------------------------
 
 Details: * Option --extend is simply -fs in bedtools genomecov. If --atacseq is set then this can be
@@ -66,6 +67,7 @@ for arg in "$@"; do
    "--threads")       set -- "$@" "-t"    ;;   
    "--sortthreads")   set -- "$@" "-q"    ;;   
    "--sortmem")       set -- "$@" "-w"    ;;   
+   "--customsuffix")  set -- "$@" "-s"    ;;
    *)                 set -- "$@" "$arg"  ;;   
  esac
 done
@@ -83,9 +85,10 @@ njobs="2"
 threads="1"
 sortthreads="1"
 sortmem="1G"
+customsuffix=""
 
 #/ getopts and export:
-while getopts b:m:e:p:t:j:q:w:k:anu OPT           
+while getopts b:m:e:p:t:j:q:w:k:s:anu OPT           
   do   
   case ${OPT} in
     b) bams="${OPTARG}"          ;;
@@ -100,6 +103,7 @@ while getopts b:m:e:p:t:j:q:w:k:anu OPT
     k) useexistingcm="${OPTARG}" ;;
     q) sortthreads="${OPTARG}"   ;;
     w) sortmem="${OPTARG}"       ;;
+    s) customsuffix="${OPTARG}"  ;;
   esac
 done	
 
@@ -118,7 +122,7 @@ fi
 if [[ "${threads}" == "0" ]]; then threads=1; fi
 
 OPTS=(bams mode extend peaks threads njobs atacseq \
-     normalize sortthreads sortmem useexistingsf useexistingcm)
+     normalize sortthreads sortmem useexistingsf useexistingcm customsuffix)
 for i in ${OPTS[*]}; do export $i; done
 
 #/ Print summary:
@@ -138,6 +142,7 @@ echo '       --useexistingsf = '"${useexistingsf}"
 echo '       --useexistingcm = '"${useexistingcm}"
 echo '       --sortthreads   = '"${sortthreads}"
 echo '       --sortmem       = '"${sortmem}"
+echo '       --customsuffix  = '"${customsuffix}"
 echo '---------------------------------------------------------------------------------------------'
 echo ''
 
@@ -328,7 +333,7 @@ function Bam2Bw {
   bedtools genomecov -bga "${input}" "${csize}" "${do_extend}" "${is_paired}" "${do_scale}" \
   | sort -k1,1 -k2,2n --parallel="${sortthreads}" -S "${sortmem}" > "${Basename}""${suffix}".bedGraph
   
-  bedGraphToBigWig "${Basename}""${suffix}".bedGraph "${singlebam}".chromsize "${Basename}""${suffix}".bigwig && \
+  bedGraphToBigWig "${Basename}""${suffix}".bedGraph "${singlebam}".chromsize "${Basename}""${suffix}""${customsuffix}".bigwig && \
   rm "${Basename}""${suffix}".bedGraph
   
 }; export -f Bam2Bw
