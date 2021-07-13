@@ -63,22 +63,6 @@ That check is automatically performed (if not specified explicitely) before ever
 
 The input files (fastq.gz/uBAM/uCRAM) are expected in the same directory as the script.
 
-For submission via SLURM and running via Singularity with our [Docker image](https://hub.docker.com/r/atpoint/phd_project) one could use:
-
-```bash
-
-
-singularity_basic_pipelines="singularity exec --bind=path/to/dir-to-mount <image.sif> echo '' && ulimit -u 50000"
-
-echo -e '#!/bin/bash'"\n"'eval ${singularity_basic_pipelines} && eval "$(conda shell.bash hook)" && conda activate Pipelines' > submit.slurm \
-&& echo 'ls *.gz | parallel -j <paralleljobs> "fastqc {}"' >> submit.slurm \
-&& echo "./DNAseq_v1.0.X.sh --genome ${idx_bowtie2}/$(basename ${ref_genome}) --atacseq --format fq_pe" >> submit.slurm
-
-#/ submit to SLURM e.g:
-sbatch --nodes=1 --ntasks-per-node=72 --mem=80G --partition=normal --job-name=jobname --time=24:00:00 submit.slurm
-
-```
-
 After running the pipeline one can use the `cleanup.sh` script in this repo to sort output into folders.
   
 <br>
