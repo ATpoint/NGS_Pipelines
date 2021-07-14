@@ -3,6 +3,7 @@
 #/ A wrapper around <bedtools unionbedg> to average bigwig files
 
 set -e -o pipefail
+LC_ALL=C
 
 export VERSION=1.0.0
 
