@@ -13,10 +13,9 @@ echo "
 
 Version: ${VERSION}
 
-=> RNA-seq quantification with salmon. Pufferfish index structure is expected,
-   so use salmon v1.0.0 and later.
- 
-   Naming conventions for input fastq files are:
+=> RNA-seq quantification with salmon.
+
+=> Naming conventions for input fastq files are:
    
    1) single-end fastq : Basename.fastq.gz
    2) paired-end fastq : Basename_1/2.fastq.gz
