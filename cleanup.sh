@@ -8,6 +8,7 @@ function exist_move {
     mkdir -p ${2}
     mv $1 ./${2}/
   fi
+
 }
 
 rm *.fastq.gz
@@ -33,3 +34,5 @@ exist_move "*.log" "./logs"
 exist_move "*_InsertSize*" "./insert_sizes"
 
 exist_move "*_cutsites.bed.gz" "./bed_cutsites"
+
+exist_move "*_salmon" "./salmons"
