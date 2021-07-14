@@ -1,24 +1,18 @@
 # NGS_Pipelines
 
-Pipelines for precessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
-
-Note that these pipelines are for internal use and come without any warranty. Default settings are tailored for use on a 72-core HPC node with > 80GB RAM.
-it is always expected that the input files (fastq, UBAM/uCRAM) are in `$(pwd)`.
+Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 
 ## Software
 
-- the `environment.yml` contains a conda environment (built on CentOS-7) with all required software
+- the `environment.yml` contains a Linux conda environment (built on CentOS-7) with all required software
 
-- a Docker container based on that environment is available from the [Docker Hub](https://hub.docker.com/r/atpoint/phd_project) based on this [Github repo](https://github.com/ATpoint/phd_project_docker).
+- a Docker image based on that environment is available from the [Docker Hub](https://hub.docker.com/r/atpoint/ngs_pipelines)
 
-The template submission script `submission_scripts/generic_template.slurm` contains instructions on how to launch the workflows via SLURM + Singularity.
 
 ## Available Pipeline
-
-<br>
+  
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
-<br>
-
+  
 #### `DNAseq_v1.0.2.sh`
 
 Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
@@ -68,23 +62,20 @@ After running the pipeline one can use the `cleanup.sh` script in this repo to s
 <br>
 <br>
 
-#### `RNAseq_v1.0.2.sh`
+#### `RNAseq.sh`
 
 The RNA-seq pipeline using `salmon` for quantification of fastq files against a transcriptome.
 Run script without arguments to display this help message:
 
 ```{bash}
 ------------------------------------------------------------------------------------------------------------------
-
 -h | --help        : Show this message                               {}
 -i | --idx         : the transcriptome index folder                  {}
 -m | --mode        : single or paired-end data (single,paired)       {}
--n | --noLength    : turn off length correction for end-tagged
-                     libraries                                       {FALSE}
+-n | --noLength    : turn off length correction for end-tagged libs  {FALSE}
 -t | --threads     : number of threads per run                       {16}
 -j | --njobs       : number of parallel jobs for salmon              {4}
 -l | --libtype     : library type                                    {A}
-
 -s | --fldMean     : mean insert size for single-end data            {250}    
 -q | --fldSD       : standard deviation for --fldMean                {25}
 -a | --additional  : any additional salmon arguments                 {}    
@@ -92,7 +83,6 @@ Run script without arguments to display this help message:
 -d | --adapter     : the adapter sequence to trim, default is TruSeq {AGATCGGAAGAGC}
 -y | --trimthreads : threads per job for cutadapt                    {2}
 -x | --trimjobs    : GNU parallel jobs for cutadapt                  {10}
-
 ------------------------------------------------------------------------------------------------------------------
 ```
 
@@ -108,43 +98,12 @@ Four jobs with 16 threads each usually works well without touching memory limits
 Note that the value goven to `--trimthreads` must be multiplied by two (for single-end) and three (for paired-end) data
 as `cutadapt` will pass that parameter to `pigz` for compression of the output files. The defaults would therefore need about 60 cores.
 
-<br>
-<br>
-
-#### `scRNAseq_v1.0.0.sh`
-
-Deprecated, see https://github.com/ATpoint/sc_preprocess.  
-
-The scRNA-seq pipeline for droplet-based data using `alevin` for quantification, CB and UMI extraction/deduplication. 
-Run script without arguments to display this help message:
-
-```{bash}
-------------------------------------------------------------------------------------------------------------------
--h | --help       : Show this message                                                                    
--i | --idx        : the transcriptome index                              {}                                                                                                    
--c | --chemistry  : the kit chemistry (dropseq, chromium, chromiumV3)    {chromiumV3}
--g | --tgmap      : transcript2gene conversion table                     {}                                
--m | --mtgenes    : list with mitochondrial genes for CB whitelisting    {}                                    
--r | --rrnagenes  : list with rRNA genes for CB whitelisting             {}                                
--l | --libtype    : library type                                         {ISR}                             
--t | --threads    : number of threads per sample                         {36}
--j | --njobs      : number of parallel jobs                              {2}
--a | --additional : any additional parameters to pass to alevin          {}
-------------------------------------------------------------------------------------------------------------------
-```
-
-CBs and UMIs are expected in R1 and cDNA is R2.
-Not extensively tested, but probably no more than two or three samples should be quantified in parallel when using the standard HPC nodes to avoid memory overload.
-We usually use an index that harbors both spliced- and unspliced transcripts plus the entire genome as decoy,
-therefore memory footprint is quiet extensive (compared to a normal txtome-only index).
-For creation of such an index see: https://github.com/ATpoint/SingleCell
-If one wishes to pass additional arguments to alevin this is possible via the `--additional` argument in double quotes, 
-e.g `--additional "--numCellGibbsSamples"`.
-
-<br>
-<br>
-
-#### `Bam2Bigwig_v1.0.0.sh`
+#### `scRNAseq.sh`
+  
+Deprecated, this workflow is now implemented in nextflow, see: https://github.com/ATpoint/sc_preprocess.
+It automates reference file download, index creation, quantification and writing counts, row- and coldata as mtx.
+  
+#### `Bam2Bigwig.sh`
 
 Accepts bam files as input and produces bigwig files:
 
@@ -185,7 +144,7 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 <br>
 <br>
 
-#### AverageBigwig_v1.0.0.sh
+#### AverageBigwig.sh
 
 This function takes two or more bigwigs and returns an averaged bigwig file.
 
