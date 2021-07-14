@@ -1,22 +1,21 @@
 #!/bin/bash
 
-#------------------------------------------------------------------------------------------------------------------------
-
 #/ DNA-seq processing pipeline
 
-#------------------------------------------------------------------------------------------------------------------------
-
+set -e -o pipefail
 LC_ALL=C
 
-#------------------------------------------------------------------------------------------------------------------------
+export VERSION=1.0.0------------------------------------------------------------------------------------------------------------------------
 
 #/ Display help section:
 usage(){
-  echo '
 
-## DNA-seq lowlevel processing for ATACseq/ChIPseq-like data
- 
-   Script performs alignment and filtering on all input files in $(pwd).
+  echo "
+
+## DNAseq.sh Version: ${VERSION}
+  
+   Script performs alignment, filtering and basic QC for assays such as ATAC-seq and ChIP-seq.
+   It runs on all input files in the working directory from where it is launched.
    
    => The expected naming conventions for input files (either fastq.gz or uBAM) are:
    1) single-end fastq : Basename.fastq.gz
@@ -47,7 +46,7 @@ usage(){
 -w | --fripqcJobs    : number of parallel jobs for the QC/FRiP part                                {36}
 -u | --gflag         : for macs2 flag -g (hs for human, mm for mouse)                              {mm}
 ------------------------------------------------------------------------------------------------------------------
-'
+"
   
 }; if [[ $# -eq 0 ]] || [[ $1 == -h ]] || [[ $1 == --help ]]; then usage; exit 0; fi
            

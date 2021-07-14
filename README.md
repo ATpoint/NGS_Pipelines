@@ -13,7 +13,7 @@ Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
   
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
   
-#### `DNAseq_v1.0.2.sh`
+#### `DNAseq.sh`
 
 Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
 
