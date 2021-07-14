@@ -1,12 +1,17 @@
 #!/bin/bash
 
-#/ RNA-seq quantification pipeline using selective alignment via Salmon.
+#/ RNA-seq quantification with salmon
 
-#/ Help section:
+set -e -o pipefail
+LC_ALL=C
+
+export VERSION=1.0.0
 
 usage(){
   
-echo '
+echo "
+
+Version: ${VERSION}
 
 => RNA-seq quantification with salmon. Pufferfish index structure is expected,
    so use salmon v1.0.0 and later.
@@ -19,16 +24,13 @@ echo '
 => Options:
 
 ---------------------------------------------------------------------------------------------
-
 -h | --help        : Show this message                               {}
 -i | --idx         : the transcriptome index folder                  {}
 -m | --mode        : single or paired-end data (single,paired)       {}
--n | --noLength    : turn off length correction for end-tagged
-                     libraries                                       {FALSE}
+-n | --noLength    : turn off length correction for end-tagged libs  {FALSE}
 -t | --threads     : number of threads per run                       {16}
 -j | --njobs       : number of parallel jobs for salmon              {4}
 -l | --libtype     : library type                                    {A}
-
 -s | --fldMean     : mean insert size for single-end data            {250}    
 -q | --fldSD       : standard deviation for --fldMean                {25}
 -a | --additional  : any additional salmon arguments                 {}    
@@ -36,9 +38,9 @@ echo '
 -d | --adapter     : the adapter sequence to trim, default is TruSeq {AGATCGGAAGAGC}
 -y | --trimthreads : threads per job for cutadapt                    {2}
 -x | --trimjobs    : GNU parallel jobs for cutadapt                  {10}
-
 ---------------------------------------------------------------------------------------------
-'
+
+"
 
 }; if [[ -z "$1" ]] || [[ $1 == -h ]] || [[ $1 == --help ]]; then usage; exit 0; fi
 	
@@ -109,6 +111,8 @@ for i in $(echo ${OPTIONS[*]}); do export $i; done
 
 echo ''
 echo '---------------------------------------------------------------------------------------------'
+echo '[Version] '"${VERSION}"
+echo ''
 echo '[Info] Running with these parameters:'
 echo '       --idx         = '"${idx}"
 echo '       --mode        = '"${mode}"
@@ -150,7 +154,7 @@ for i in $(echo ${TOOLS[*]}); do
   
 #/ If tools are missing write them to <missing_tools.txt>
 if [[ -e missing_tools.txt ]] && [[ $(cat missing_tools.txt | wc -l | xargs) > 0 ]]; then
-  echo '[ERROR] Tools missing in PATH -- see missing_tools.txt' && exit 1; fi
+  echo '[Error] Tools missing in PATH -- see missing_tools.txt' && exit 1; fi
 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -202,7 +206,7 @@ function SALMON {
   if [[ ${mode} == "paired" ]]; then 
     
     if [[ ! -e ${1}_1.fastq.gz || ! -e ${1}_2.fastq.gz ]]; then
-      echo '[ERROR]: At least on of the input files is missing for' $1 && exit 1
+      echo '[Error]: At least on of the input files is missing for' $1 && exit 1
     fi
     
     Files="-1 ${1}_1.fastq.gz -2 ${1}_2.fastq.gz"
@@ -221,7 +225,7 @@ function SALMON {
   if [[ ${mode} == "single" ]]; then 
     
     if [[ ! -e ${1}.fastq.gz ]]; then
-      echo '[ERROR]: Input files is missing for' $1 && exit 1
+      echo '[Error]: Input files is missing for' $1 && exit 1
     fi
     
     Files="-r ${1}.fastq.gz"
@@ -248,8 +252,6 @@ function SALMON {
  
 }; export -f SALMON
 
-#-----------------------------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
 #/ Sanity checks:
