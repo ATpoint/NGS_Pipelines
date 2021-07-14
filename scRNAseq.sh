@@ -5,6 +5,10 @@ LC_ALL=C
 usage(){
   echo '
 
+------------------------------------------------------------------------------------------------------------
+[Deprecated] Use our nextflow workflow: https://github.com/ATpoint/sc_preprocess
+------------------------------------------------------------------------------------------------------------
+
 Quantification of droplet-based scRNA_seq data using selective alignment via Alevin.
 
 Assumes => CB/UMI in Read1 (Basename_1.fastq.gz) and
