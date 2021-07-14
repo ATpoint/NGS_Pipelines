@@ -5,8 +5,7 @@ COPY ["environment.yml", "./"]
 RUN apt update && \
     apt install --assume-yes wget nano
 
-RUN conda install mamba -n base -c conda-forge \
-    && mamba env update -f environment.yml
+RUN mamba env update -f environment.yml
 
 CMD echo "This is the ngs_pipelines image with versions:" $(mamba --version | tr "\n" "\ ")
             
