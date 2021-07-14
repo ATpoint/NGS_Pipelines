@@ -5,9 +5,6 @@ COPY ["environment.yml", "./"]
 RUN apt update && \
     apt install --assume-yes wget nano
 
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
-
 RUN conda install mamba -n base -c conda-forge \
     && mamba env update -f environment.yml
 
