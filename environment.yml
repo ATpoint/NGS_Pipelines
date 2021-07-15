@@ -1,4 +1,4 @@
-name: base
+name: bambam
 channels:
   - conda-forge
   - bioconda
@@ -55,6 +55,7 @@ dependencies:
   - gxx_impl_linux-64=7.5.0=h64c220c_13
   - gxx_linux-64=7.5.0=h547f3ba_29
   - harfbuzz=2.4.0=h9f30f68_3
+  - homer=4.11=pl5262h7d875b9_5
   - htslib=1.11=hd3b49d5_0
   - humanfriendly=8.2=py38h32f6830_1
   - icu=64.2=he1b5a44_1
@@ -84,6 +85,7 @@ dependencies:
   - libglib=2.66.2=h0dae87d_0
   - libgomp=9.3.0=h5dbcf3e_17
   - libiconv=1.16=h516909a_0
+  - libidn2=2.3.1=h7f98852_0
   - liblapack=3.9.0=2_openblas
   - libnghttp2=1.41.0=h8cfc5f6_2
   - libopenblas=0.3.12=pthreads_hb3c22a3_1
@@ -92,6 +94,7 @@ dependencies:
   - libstdcxx-devel_linux-64=9.3.0=h4084dd6_17
   - libstdcxx-ng=9.3.0=h2ae2ef3_17
   - libtiff=4.1.0=hc7e4089_6
+  - libunistring=0.9.10=h14c3975_0
   - libuuid=2.32.1=h14c3975_1000
   - libuv=1.40.0=hd18ef5c_0
   - libwebp-base=1.1.0=h516909a_3
@@ -196,7 +199,9 @@ dependencies:
   - tornado=6.0.4=py38h1e0a361_2
   - ucsc-bedgraphtobigwig=377=h446ed27_1
   - ucsc-bigwigtobedgraph=377=h446ed27_4
+  - unzip=6.0=h7f98852_2
   - urllib3=1.25.11=py_0
+  - wget=1.20.1=h22169c7_0
   - wheel=0.35.1=pyh9f0ad1d_0
   - xopen=0.9.0=py38h32f6830_1
   - xorg-fixesproto=5.0=h14c3975_1002
@@ -221,3 +226,4 @@ dependencies:
   - zipp=3.4.0=py_0
   - zlib=1.2.11=h516909a_1010
   - zstd=1.4.5=h6597ccf_2
+prefix: /home/a/a_toen03/miniconda3/envs/bambam
