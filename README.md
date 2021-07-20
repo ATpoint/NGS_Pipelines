@@ -1,6 +1,6 @@
 # NGS_Pipelines
 
-Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
+Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data. 
 
 ## Software
 
@@ -8,11 +8,18 @@ Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
 
 - a Docker image based on that environment is available from the [Docker Hub](https://hub.docker.com/r/atpoint/ngs_pipelines)
 
-
 ## Available Pipeline
   
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
   
+#### RNAseq.sh
+
+**Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
+
+#### scRNAseq.sh
+  
+**Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
+
 #### `DNAseq.sh`
 
 Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
@@ -61,48 +68,7 @@ After running the pipeline one can use the `cleanup.sh` script in this repo to s
   
 <br>
 <br>
-
-#### `RNAseq.sh`
-
-The RNA-seq pipeline using `salmon` for quantification of fastq files against a transcriptome.
-Run script without arguments to display this help message:
-
-```{bash}
-------------------------------------------------------------------------------------------------------------------
--h | --help        : Show this message                               {}
--i | --idx         : the transcriptome index folder                  {}
--m | --mode        : single or paired-end data (single,paired)       {}
--n | --noLength    : turn off length correction for end-tagged libs  {FALSE}
--t | --threads     : number of threads per run                       {16}
--j | --njobs       : number of parallel jobs for salmon              {4}
--l | --libtype     : library type                                    {A}
--s | --fldMean     : mean insert size for single-end data            {250}    
--q | --fldSD       : standard deviation for --fldMean                {25}
--a | --additional  : any additional salmon arguments                 {}    
--c | --trim        : whether to trim adapters via cutadapt           {FALSE}
--d | --adapter     : the adapter sequence to trim, default is TruSeq {AGATCGGAAGAGC}
--y | --trimthreads : threads per job for cutadapt                    {2}
--x | --trimjobs    : GNU parallel jobs for cutadapt                  {10}
-------------------------------------------------------------------------------------------------------------------
-```
-
-Input files are gzipped fastq, either single-or paired-end with naming concentions as in the DNAseq pipeline above,
-so `Basename.fastq.gz` for single-end and `Basename_1.fastq.gz`/`Basename_2.fastq.gz` for paired-end data.
-All files with this suffix in the current directory of the script will be used as input.
-Script checks whether reqiured tools are in `$PATH` before scarting the job. Missing tools are in `missing_tools.txt`
-
-The pipeline can optionally run `cutadapt` for adapter trimming.
-If using an index that contains the entire human or mouse genome as decoy one should probably not run more than four parallel 
-quantification jobs (`--njobs`) on the standard HPC nodes but this is not extensively tested. 
-Four jobs with 16 threads each usually works well without touching memory limits.
-Note that the value goven to `--trimthreads` must be multiplied by two (for single-end) and three (for paired-end) data
-as `cutadapt` will pass that parameter to `pigz` for compression of the output files. The defaults would therefore need about 60 cores.
-
-#### `scRNAseq.sh`
-  
-Deprecated, this workflow is now implemented in nextflow, see: https://github.com/ATpoint/sc_preprocess.
-It automates reference file download, index creation, quantification and writing counts, row- and coldata as mtx.
-  
+ 
 #### `Bam2Bigwig.sh`
 
 Accepts bam files as input and produces bigwig files:
