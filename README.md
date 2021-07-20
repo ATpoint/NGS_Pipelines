@@ -12,15 +12,15 @@ Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
   
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
   
-#### RNAseq.sh
+### RNAseq.sh
 
 **Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
 
-#### scRNAseq.sh
+### scRNAseq.sh
   
 **Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
 
-#### `DNAseq.sh`
+### `DNAseq.sh`
 
 Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
 
@@ -69,7 +69,7 @@ After running the pipeline one can use the `cleanup.sh` script in this repo to s
 <br>
 <br>
  
-#### `Bam2Bigwig.sh`
+### `Bam2Bigwig.sh`
 
 Accepts bam files as input and produces bigwig files:
 
@@ -110,7 +110,7 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 <br>
 <br>
 
-#### AverageBigwig.sh
+### AverageBigwig.sh
 
 This function takes two or more bigwigs and returns an averaged bigwig file.
 
