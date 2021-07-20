@@ -12,11 +12,11 @@ Pipelines for preprocessing of ATAC/ChIP-seq, RNA-seq and scRNA-seq data.
   
 Run any of the bash scripts without arguments or with `-h/--help` to see the help section with all available arguments.
   
-### RNAseq.sh
+### `RNAseq.sh`
 
 **Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
 
-### scRNAseq.sh
+### `scRNAseq.sh`
   
 **Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/sc_preprocess
 
