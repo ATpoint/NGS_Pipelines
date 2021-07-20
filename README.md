@@ -18,7 +18,7 @@ Run any of the bash scripts without arguments or with `-h/--help` to see the hel
 
 ### scRNAseq.sh
   
-**Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/rnaseq_preprocess
+**Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/sc_preprocess
 
 ### `DNAseq.sh`
 
