@@ -36,7 +36,7 @@ usage(){
 -m | --chrM          : name of the mitochondrial chromosome (for ATAC-seq % reads mapping to it)   {chrM}
 -l | --memSort       : memory per thread for BAM sorting by samtools in the form of e.g. "1G"      {1G}
 -y | --threadsSort   : threads for sorting operations                                              {8}
--c | --chrRegex      : use this regex to select chromosomes to keep during filtering               {chr[1,9,X,Y]}
+-c | --chrRegex      : use this regex to select chromosomes to keep during filtering               {chr[1-9,X,Y]}
 -k | --keepDup       : do not remove PCR duplicates from alignment                                 {FALSE}  
 -q | --minMAPQ       : keep only alignments with that minimal MAPQ                                 {20}
 -x | --checktools    : check whether required software is in PATH                                  {}
