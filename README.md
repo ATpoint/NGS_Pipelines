@@ -22,52 +22,7 @@ Run any of the bash scripts without arguments or with `-h/--help` to see the hel
 
 ### `DNAseq.sh`
 
-Pipeline for alignment, filtering and QC/FRiP assessment of DNA-seq assays such as ChIP-seq and ATAC-seq.
-
-```{bash}
-------------------------------------------------------------------------------------------------------------------
--h | --help          : show this message                                                           {}
--g | --genome        : path to genome index prefix                                                 {}
--j | --jobnumber     : number of parallel jobs (GNU parallel)                                      {4}
--t | --threads       : number of threads per job for alignment                                     {16}          
--f | --format        : type of input files (fq_se/pe, bam_se/pe)                                   {}           
--a | --atacseq       : turn on ATAC-seq mode                                                       {FALSE}
--o | --onlyAln       : perform only the alignment and then exit                                    {FALSE}
--m | --chrM          : name of the mitochondrial chromosome (for ATAC-seq % reads mapping to it)   {chrM}
--l | --memSort       : memory per thread for BAM sorting by samtools in the form of e.g. "1G"      {1G}
--y | --threadsSort   : threads for sorting operations                                              {8}
--c | --chrRegex      : use this regex to select chromosomes to keep during filtering               {chr[1,9,X,Y]}
--k | --keepDup       : do not remove PCR duplicates from alignment                                 {FALSE}  
--q | --minMAPQ       : keep only alignments with that minimal MAPQ                                 {20}
--x | --checktools    : check whether required software is in PATH                                  {}
--d | --noalignment   : do not run alignment                                                        {FALSE}
--s | --nofrips       : do not run the QC assessment via peak calling and FRiP calculation          {FALSE}
--b | --layout        : whether se or pe, only relevant if --noalignment is set (se,pe)             {se}
--w | --fripqcJobs    : number of parallel jobs for the QC/FRiP part                                {36}
-------------------------------------------------------------------------------------------------------------------
-```
-
-Input data are gzipped fastq or unaligned BAMs/CRAMs with the naming convention:  
-- single-end: `Basename.fastq.gz`
-- paired-end: `Basename_1.fastq.gz`, `Basename_2.fastq.gz`
-- ubam se/pe: `Basename_ubam.bam`
-
-Workflow includes adapter trimming, alignment, removal of non-primary, duplicated and low-MAPQ reads as well as alignments on non-primary chromosomes.
-Output are the unfiltered sorted alignment (`basename_raw.bam`) and the filtered one `basename_dedup.bam`. The user can specify which chromosomes shall be retained during the filtering via `--chrRegex` which is basically the regex used by `grep` on the chromosome names. Default is `chr[1,9,X,Y]` which will keep (here intended for the mouse and human genome) all chromosomes prefixed with chr followed by a number, plus the sec chromosomes X and Y, but discard the unplaced contigs etc.
-In ATAC-seq mode (`--atacseq`) it also outputs a BED file with the transposase cutting sites (shifted +4/-5) as both compressed BED and bigwig,
-with the names `Basename_cutsites.bed.gz` and `Basename_cutsites.bigwig`.  
-The pipeline can also perform some basic QC by calling peaks with `macs2` and then calculate the Fraction Of Reads in Peaks (FRiPs) as an estimate of the signal/noise ratio. The FRiPs per sample are then in `FRiPs.txt`. For ATAC-seq there will also be `mtDNA_percent.txt` which contains the percentage of reads per sample mapping to the mitochondrial chromosome (specified via `--chrM`). If one already has alignments from this pipeline one can skip it and only perform the FRiP QC via `--noalignment`, and one can skip the FRiP QC when only running the alignments via `--nofrips`.
-
-As minimum input the path to the `bowtie2` index files must be provided via `--genome` as well as the format (fq_se, fq_pe, bam_se, bam_pe) to indicate input format and sequencing layout (single, paired-end).
-Run with `--checktools` to check whether all required software is in `$PATH`. If not `missing_tools.txt` will contain the names of the missing tools.
-That check is automatically performed (if not specified explicitely) before every run.
-
-The input files (fastq.gz/uBAM/uCRAM) are expected in the same directory as the script.
-
-After running the pipeline one can use the `cleanup.sh` script in this repo to sort output into folders.
-  
-<br>
-<br>
+**Deprecated:** Use this Nextflow pipeline instead => https://github.com/ATpoint/atac_chip_preprocess
  
 ### `Bam2Bigwig.sh`
 
