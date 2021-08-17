@@ -27,7 +27,7 @@ Run any of the bash scripts without arguments or with `-h/--help` to see the hel
 ### `Bam2Bigwig.sh`
 
 **Deprecated:** Use this https://github.com/ATpoint/bam2bedgraph, still bash-based but a more cleaned-up version that
-is simpler and includes th averaging script from below.
+is simpler and includes the averaging script from below plus a Docker image and conda environment YAML file.
 
 ### `AverageBigwig.sh
 
