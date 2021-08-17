@@ -29,7 +29,7 @@ Run any of the bash scripts without arguments or with `-h/--help` to see the hel
 **Deprecated:** Use this https://github.com/ATpoint/bam2bedgraph, still bash-based but a more cleaned-up version that
 is simpler and includes th averaging script from below.
 
-### AverageBigwig.sh
+### `AverageBigwig.sh
 
 **Deprecated**: See https://github.com/ATpoint/bam2bedgraph.
 
