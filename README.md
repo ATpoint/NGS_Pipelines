@@ -26,7 +26,8 @@ Run any of the bash scripts without arguments or with `-h/--help` to see the hel
  
 ### `Bam2Bigwig.sh`
 
-Accepts bam files as input and produces bigwig files:
+**Deprecated:** Use this https://github.com/ATpoint/bam2bedgraph, still bash-based but a more cleaned-up version that
+is simpler and includes th averaging script from below.
 
 ```{bash}
 ------------------------------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ If one converts the wig directly to bigwig it will produce a very large files, m
 
 ### AverageBigwig.sh
 
-This function takes two or more bigwigs and returns an averaged bigwig file.
+**Deprecated**: See https://github.com/ATpoint/bam2bedgraph.
 
 ```{bash}
 
